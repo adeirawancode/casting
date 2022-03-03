@@ -4,7 +4,7 @@
 <meta name="ATI" content="ATI">
 <meta name="author" content="">
 <link rel="icon" type="ico" href="assets/images/icon/ATI_bg.ico">
-<title>eATIChecksheet</title>
+<title>ATI | e-Checksheet</title>
 
 <!-- Desain Utama -->
 <link rel="stylesheet" href="assets/frontend/css/main.css">
@@ -12,7 +12,8 @@
 <link rel="stylesheet" href="assets/frontend/css/fullcalendar.css">
 
 <!-- BS 5-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
+<script src="assets/frontend/js/bootstrap.bundle.min.js"></script>
 
 <!-- Bahan Pendukung Desain -->
 <link rel="stylesheet" href="assets/support/fontawesome-free/css/all.min.css">

@@ -1,13 +1,11 @@
 <?php  
-$serverName = "192.168.102.5"; 
-$uid = "sa";   
-$pwd = "a0ti5server!";  
+$serverName = "ATINB145\SQLEXPRESS"; 
+$uid = "u_prd";   
+$pwd = "atiprd";  
 $databaseName = "PRD"; 
 $connectionInfo = array( "UID"=>$uid,                            
                          "PWD"=>$pwd,                            
                          "Database"=>$databaseName,
                          "ReturnDatesAsStrings" => true); 
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
-
-
 ?>
