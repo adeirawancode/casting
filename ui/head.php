@@ -10,16 +10,19 @@
 <link rel="stylesheet" href="assets/frontend/css/main.css">
 <link rel="stylesheet" href="assets/frontend/css/main.min.css">
 <link rel="stylesheet" href="assets/frontend/css/fullcalendar.css">
+<link rel="stylesheet" href="assets/frontend/css/bootstrap.min.css">
 
 <!-- BS 5-->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
 <script src="assets/frontend/js/bootstrap.bundle.min.js"></script>
+
+<!-- Chart -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+<script src="assets/support/chart.js/chart.js"></script>
 
 <!-- Bahan Pendukung Desain -->
 <link rel="stylesheet" href="assets/support/fontawesome-free/css/all.min.css">
 <link rel="stylesheet" href="assets/support/overlayScrollbars/css/OverlayScrollbars.min.css">
 <link rel="stylesheet" href="assets/support/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-
 <link rel="stylesheet" href="assets/support/css/google.font.css">
 
 <!-- Desain DataTables -->
@@ -91,164 +94,6 @@ font: 14px arial;
     top:0;
   }
 }
-</style>
-
-
-  
- <style>
- 
-.buttonAbsenFinish {
-  background-color: grey;
-  border: none;
-  color: white;
-   padding: 40px 29px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;  
-  font-family: arial;
-  margin: 4px 2px;
-  border-radius: 50%;
-}
- 
- .buttonAbsenOUT {
-  background-color: red;
-  border: none;
-  color: white;
-  padding: 36px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 25px;
-  
-  font-weight: bold;
-  font-family: arial;
-  margin: 4px 2px;
-  border-radius: 50%;
-}
-
-.buttonAbsenIN {
-  background-color: lime;
-  border: none;
-  color: white;
-  padding: 30px 39px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: arial;
-  margin: 4px 2px;
-  border-radius: 50%;
-}
-.buttonRd {
-  background-color: #ff0000;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  border-radius: 50%;
-}
-.buttonGr {
-  background-color: #00ff00;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  border-radius: 50%;
-}
-.buttonYL {
-  background-color: #ffff00;
-  border: none;
-  color: yellow;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  border-radius: 50%;
-	border-radius: 50%;
-}
-.buttonhijau {
-  background-color: #248f24;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 2px;
-border-radius: 2px;
-	border-radius: 2px;	
-}
-.buttonbirumuda {
-  background-color: #00bfff;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 2px;
-border-radius: 2px;
-	border-radius: 2px;	
-}
-.buttonungu {
-  background-color: purple;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 2px;
-border-radius: 2px;
-	border-radius: 2px;	
-}
-.buttonmerah {
-  background-color: #ff0000;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: yes;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 2px;
-  border-radius: 2px;
-	border-radius: 2px;	
-}
-.buttonBrown {
-  background-color: Brown;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: yes;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 2px;
-  border-radius: 2px;
-	border-radius: 2px;	
-}
-</style>
-<!-- END CSS Button Custom -->  
+</style>  
 
 

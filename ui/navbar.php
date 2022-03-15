@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-start">
 	<a class="navbar-brand" href="pages.php?p=dashboard.php">
 		<img src="img/ATI_white_small.png" width="65" height="30" class="d-inline-block align-top" alt="">
-		POURING DISA 1
+		e-Checksheet Casting
 	</a>
   </div>
   <!-- <div class="d-flex justify-content-end">
