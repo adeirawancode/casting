@@ -1,18 +1,63 @@
 <?php
 require "config/query/Q_pouring.php";
+require "config/query/Q_config.php";
+
+include "modal/modal_shift.php";
+include "modal/modal_finish.php";
+include "modal/modal_product.php";
+
+$sessionID = $_SESSION['SessionID']
 ?>
+<table id="" width="100%" class="table-bordered" style="overflow-x:auto;" cellspacing="0" cellpadding="0">												
+	 <tbody>
+        <tr>
+            <th style="vertical-align: middle; text-align : center; font-size : 0px;" rowspan="2"><a href="pages.php?p=dashboard.php"><img src="img/ATI_bg.png" width="60"></a></th>							
+            <th style="vertical-align: middle; text-align : center; font-size : auto; font-weight: bold;" rowspan="2">MELTING REPORT</th>	
+            <th style="text-align : center; font-size : 15px; font-weight : bold; vertical-align: middle;">Tanggal</th>
+            <th style="text-align : center; font-size : 15px; font-weight : bold; vertical-align: middle;">Shift</th>										
+            <th style="vertical-align: middle; text-align : center; font-size : 13px;">Operator</th>									
+            <th style="vertical-align: middle; text-align : center; font-size : 13px;">Leader</th>									
+            <th style="vertical-align: middle; text-align : center; font-size : 13px;">Foreman</th>
+            <th style="vertical-align: middle; text-align : right;" rowspan="2">
+				<?php if($adaEvent < 1) { ?>
+ 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_shift">SET SHIFT</button>
+				<?php }else{ ?>	
+					<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_end">END SHIFT</button>
+				<?php } ?>
+			</th>
+        </tr>
+	
+	
+		<?php while($row_session = sqlsrv_fetch_array($stmt_get_member, SQLSRV_FETCH_ASSOC)) { ?>
+        <tr>
+            <td style="vertical-align: middle; text-align : center; font-size : 13px;"><?php echo isset($row_session['WorkingDate']) ? $row_session['WorkingDate'] : '-' ;?></td>
+            <td style="vertical-align: middle; text-align : center; font-size : 13px;"><?php echo isset($row_session['ShiftName']) ? $row_session['ShiftName'] : '-' ;?></td>
+            <td style="vertical-align: middle; text-align : center; font-size : 13px;"><?php echo isset($row_session['OperatorID']) ? $row_session['OperatorID'] : '-' ;?></td>										
+            <td style="vertical-align: middle; text-align : center; font-size : 13px;"><?php echo isset($row_session['LeaderID']) ? $row_session['LeaderID'] : '-' ;?></td>										
+            <td style="vertical-align: middle; text-align : center; font-size : 13px;"><?php echo isset($row_session['ForemanID']) ? $row_session['ForemanID'] : '-' ;?></td>										
+        </tr>            
+		<?php } ?>
+    </tbody>
+</table>
+
 <div class="row">
-    <div class="col-11">
-        <table class="table table-striped">
-            <thead class="thead-dark" style="text-align: center">
+    <button type="submit" class="btn btn-primary btn-lg" id="add_pouring" name="add_pouring" data-bs-toggle="modal" data-bs-target="#modal_pouring">TAMBAH DATA</button>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <table width="100%" class="table-bordered table-responsive table-striped" style="overflow-x:auto;">
+            <thead class="" style="text-align: center">
                 <tr>
-                    <!-- <th width="1%" rowspan="2">Laddle</th> -->
+                    <th width="1%" rowspan="2">Laddle</th>
                     <th width="1%" rowspan="2">FM</th>
+                    <th width="1%" rowspan="2">PRODUCT NAME</th>
                     <th width="1%" rowspan="2">Start Time</th>
                     <th width="1%" rowspan="2">Finish Time</th>
-                    <th width="1%" rowspan="2">Temp.</th>
+                    <th width="1%" rowspan="2">Temp. STD</th>
+                    <th width="1%" rowspan="2">Temp. ACT</th>
                     <th width="1%" rowspan="2">Pin Sample</th>
-                    <th width="1%" rowspan="2">Panjang Chill</th>
+                    <th width="1%" rowspan="2">Chill/ Marubo Depth</th>
                     <th width="1%" colspan="2">Pour</th>
                     <th width="1%" colspan="3">Problem (Qty Mold)</th>
                     <th width="2%" rowspan="2">OPR</th>
@@ -20,7 +65,8 @@ require "config/query/Q_pouring.php";
                     <th colspan="9">Material Composition</th>
                     <th width="2%" rowspan="2">Frm/Ldr Check</th>
                     <th width="6%" rowspan="2">Problem</th>
-                    <th width="2%" rowspan="2">Get Comp.</th>
+                    <th width="2%" rowspan="2">Comp.</th>
+                    <th width="2%" rowspan="2">Edit</th>
                 </tr>
                 <tr>
                     <th width="1%">Mold</th>
@@ -41,124 +87,61 @@ require "config/query/Q_pouring.php";
             </thead>
             <tbody>
                 <?php
-                $sql_data_transaction = "SELECT * FROM [PRD].[dbo].[pouring]";
+                $sql_data_transaction = "SELECT * FROM [PRD].[dbo].[pouring] ORDER BY RecID ASC";
                 $stmt_data_transaction = sqlsrv_query($conn, $sql_data_transaction);
+                $no = 1;
                 while($row_pouring = sqlsrv_fetch_array($stmt_data_transaction, SQLSRV_FETCH_ASSOC))
                 {			
                 ?>
-                <tr>
-                    <!-- <td><?php  ?></td> -->
+                <tr style ="text-align : center; font-size : 12px; font-weight : bold; vertical-align: middle;">
+                    <td><?php echo $no++; ?></td>
                     <td><?php echo $row_pouring['FM']; ?></td>
-                    <td><?php echo substr($row_pouring['StartTime'], 0,5); ?></td>
-                    <td><?php echo substr($row_pouring['FinishTime'], 0,5); ?></td>
+                    <td style ="background: #ffff00;"><?php echo $row_pouring['ProductCode']; ?></td>
+                    <td><?php echo substr($row_pouring['StartTime'], 11,5); ?></td>
+                    <td><?php echo isset($row_pouring['FinishTime']) ? substr($row_pouring['FinishTime'], 11,5) : '<span style="color:#FF0000;">0</span>' ;?></td>
                     <td><?php echo $row_pouring['Temperature']; ?></td>
-                    <td><?php echo $row_pouring['PinSample']; ?></td>
-                    <td><?php echo $row_pouring['PanjangChill']; ?></td>
+                    <td><?php echo $row_pouring['Temperature']; ?></td>
+                    <td><?php echo isset($row_pouring['PinSample']) ? $row_pouring['PinSample'] = 'OK' : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['PanjangChill']) ? $row_pouring['PanjangChill']  : '<span style="color:#FF0000;">0</span>' ;?></td>
                     <td><?php echo $row_pouring['Mold']; ?></td>
                     <td><?php echo $row_pouring['TotalMold']; ?></td>
                     <td><?php echo $row_pouring['MoldNG']; ?></td>
                     <td><?php echo $row_pouring['PourNG']; ?></td>
                     <td><?php echo $row_pouring['Empty']; ?></td>
                     <td><?php echo $row_pouring['OperatorID']; ?></td>
-                    <td><?php echo $row_pouring['FaddingTime']; ?></td>
-                    <td><?php echo round($row_pouring['C'], 4); ?></td>
-                    <td><?php echo round($row_pouring['Si'], 4); ?></td>
-                    <td><?php echo round($row_pouring['Mn'], 4); ?></td>
-                    <td><?php echo round($row_pouring['S'], 5); ?></td>
-                    <td><?php echo round($row_pouring['Cu'], 5); ?></td>
-                    <td><?php echo round($row_pouring['Sn'], 5); ?></td>
-                    <td><?php echo round($row_pouring['Mg'], 5); ?></td>
-                    <td><?php echo round($row_pouring['Cr'], 5); ?></td>
-                    <td><?php echo round($row_pouring['P'], 5); ?></td>
+                    <td><?php echo isset($row_pouring['FaddingTime']) ? $row_pouring['FaddingTime'] : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['C']) ? round($row_pouring['C'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Si']) ? round($row_pouring['Si'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Mn']) ? round($row_pouring['Mn'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['S']) ? round($row_pouring['S'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Cu']) ? round($row_pouring['Cu'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Sn']) ? round($row_pouring['Sn'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Mg']) ? round($row_pouring['Mg'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['Cr']) ? round($row_pouring['Cr'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
+                    <td><?php echo isset($row_pouring['P']) ? round($row_pouring['P'], 4) : '<span style="color:#FF0000;">0</span>' ;?></td>
                     <td><?php echo $row_pouring['Inspection']; ?></td>
                     <td><?php echo $row_pouring['StopLineID']; ?></td>
-                    <td>
-                        <button type="button" class="btn btn-lg btn-block btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#modal_composition"><?php echo $row_pouring['ProductCode']; ?></button>
-                        <button type="button" class="btn btn-lg btn-block btn-primary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#modal_edit<?php echo $row_pouring['RecID']; ?>">Edit</button>
-                    </td>
+                    <td><button type="button" class="btn btn-block btn-success" data-bs-toggle="modal" data-bs-target="#modal_composition"><i class="fas fa-plus"></i></button></td>
+                    <td><button type="button" class="btn btn-block btn-warning"><a href="module/pouring/ac_edit_pouring.php?id=<?php echo $row_pouring['RecID']; ?>"><i class="fas fa-edit"></i></a></button></td>
                 </tr>
                  
-                <?php include  "module/pouring/modal_edit.php"; }
+                <?php }
                 ?>
             </tbody>
         </table>
     </div>
-    <div class="col-1 pl-0" style="background-color: #ffc107;">
-        <?php
-      $sql_session = "SELECT TOP 1 WorkingDate
-      ,ShiftName
-      ,ForemanID
-      ,LeaderID
-      ,OperatorID
-      FROM [PRD].[dbo].[session_log]
-      ORDER BY WorkingDate DESC";
-      $stmt_session = sqlsrv_query($conn, $sql_session); 
-      $row_session = sqlsrv_fetch_array($stmt_session, SQLSRV_FETCH_ASSOC);
-        ?>
-        <form method="POST" class="pl-0">
-            <div class="form-group">
-                <div class="col">
-                    <div class="col-1 d-grid gap-2">
-                        <button type="button" class="btn btn-lg btn-primary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#modal_data">TAMBAH DATA</button>
-                    </div>
-                    <!-- <div class="col-1">
-                        <button type="button" class="btn btn-lg btn-secondary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#modal_grafik">CHART TEMP.</button>
-                    </div> -->
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-1">
-                    <div class="col-1">
-                        <label for="">TANGGAL</label>
-                    </div>
-                    <div>
-                        <input type="text" size="8"
-                            value="<?php echo isset($row_session['WorkingDate']) ? $row_session['WorkingDate'] : '-' ;?>">
-                    </div>
-                    <div class="col-1">
-                        <label for="">SHIFT</label>
-                    </div>
-                    <div>
-                        <input type="text" size="8"
-                            value="<?php echo isset($row_session['ShiftName']) ? $row_session['ShiftName'] : '-' ;?>">
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-1">
-                    <label>FOREMAN</label> <br>
-                    <?php echo isset($row_session['ForemanID']) ? $row_session['ForemanID'] : '-'; ?>
-                </div>
-                <div class="col-1">
-                    <label>LEADER</label> <br>
-                    <?php echo isset($row_session['LeaderID']) ? $row_session['LeaderID'] : '-'; ?>
-                </div>
-                <div class="col-1">
-                    <label>CHECKER</label> <br>
-                    <?php echo isset($row_session['OperatorID']) ? $row_session['OperatorID'] : '-'; ?>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col">
-                    <div class="col-1">
-                        <button type="button" class="btn btn-lg btn-primary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#modal_shift">SET SHIFT</button>
-                    </div>
-                    <div class="col-1">
-                        <button type="button" class="btn btn-lg btn-secondary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#modal_end">END SHIFT</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 
-<!-- Modal Shift -->
+<footer style="position: fixed; bottom: 0; width: 100%; ">
+    <div class="row">
+        <p type="text" class="bg-yellow">RESUME PRODUCTIVITY</p>
+    </div>
+    <table>
+
+    </table>
+</footer>
+
+<!-- Modal Grafik -->
 <div class="modal fade" id="modal_grafik" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -173,109 +156,8 @@ require "config/query/Q_pouring.php";
     </div>
 </div>
 
-<!-- Modal Shift -->
-<div class="modal fade" id="modal_shift" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">SET SHIFT</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            <form method="POST">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="">DATE</label>
-                                <input type="date" class="form-control" id="working_date" name="working_date"
-                                    value="<?php echo $today; ?>">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="">SHIFT NAME</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="radio" id="nsp" name="shift_name" value="NSP" /> NSP
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="radio" id="nsm" name="shift_name" value="NSM" /> NSM
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#modal_foreman">FOREMAN</button>
-                                <input class="form-control mt-2" id="foreman_id" name="foreman_id">
-                                <input class="form-control mt-2" id="foreman_name" name="foreman_name">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#modal_leader">LEADER</button>
-                                <input class="form-control mt-2" id="leader_id" name="leader_id">
-                                <input class="form-control mt-2" id="leader_name" name="leader_name">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#modal_op">CHECKER</button>
-                                <input class="form-control mt-2" id="checker_id" name="checker_id">
-                                <input class="form-control mt-2" id="checker_name" name="checker_name">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="create_checksheet" name="create_checksheet">SETUP
-                        SHIFT</button>
-                </div>
-            </form>
-    <?php
-            
-        if(isset($_POST["create_checksheet"])){
-          $SessionID = Date('YmdHi');
-          $working_date = $_POST['working_date'];
-          $shift_name = $_POST['shift_name'];
-          $foreman_id = $_POST['foreman_id'];
-          $leader_id = $_POST['leader_id'];
-          $checker_id = $_POST['checker_id'];
-          $sql = "INSERT INTO [PRD].[dbo].[session_log]
-          (SessionID
-          ,WorkingDate
-          ,ShiftName
-          ,ForemanID
-          ,LeaderID
-          ,OperatorID
-          )
-          VALUES
-          ('$SessionID'
-          ,'$working_date'
-          ,'$shift_name'
-          ,'$foreman_id'
-          ,'$leader_id'
-          ,'$checker_id')";
-          $stmt = sqlsrv_query($conn, $sql);
-          echo '<meta http-equiv="refresh" content="0" />';
-          if($stmt){
-            $_SESSION['SessionID'] = $SessionID;
-          }
-          $SessionID_Active = $_SESSION['SessionID'];
-          var_dump($SessionID_Active);die;
-        }
-    ?>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Data -->
-<div class="modal fade" id="modal_data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Pouring -->
+<div class="modal fade" id="modal_pouring" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -395,78 +277,83 @@ require "config/query/Q_pouring.php";
                         <div class="col-6">
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#">START PROBLEM</button>
+                                    data-bs-target="#">PROBLEM</button>
 
                             </div>
                         </div>
-                        <div class="col-6">
+                        <!-- <div class="col-6">
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
                                     data-bs-target="#">FINISH PROBLEM</button>
                             </div>
-                        </div>
+                        </div> -->
                         <textarea class="form-control mt-2" id="problem" name="problem"></textarea>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="add_data" name="add_data">TAMBAH DATA</button>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary btn-lg" id="add_pouring" name="add_pouring" data-bs-toggle="modal" data-bs-target="#modal_pouring">TAMBAH DATA</button>
                 </div>
+                <!-- <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-lg" id="add_pouring" name="add_pouring">TAMBAH DATA</button>
+                </div> -->
             </form>
             <?php
-            // $RecordID = Date();
-        if(isset($_POST["add_data"])){
-          $fm = $_POST['fm'];
-          $product = $_POST['product'];
-          $start = $_POST['start'];
-          $temp = $_POST['temp'];
-          $pin = $_POST['pin'];
-          $chill = $_POST['chill'];
-          $finish = $_POST['finish'];
-          $mold = $_POST['mold'];
-          $total = $_POST['total'];
-          $mold_ng = $_POST['mold_ng'];
-          $pour_ng = $_POST['pour_ng'];
-          $empty = $_POST['empty'];
-          $op = $_POST['op'];
-          $fdt = $_POST['fdt'];
-          $problem = $_POST['problem'];
-          $sql_transaction = "INSERT INTO [PRD].[dbo].[pouring]
-          (SessionID
-           ,FM
-           ,ProductCode
-           ,StartTime
-           ,FinishTime
-           ,Temperature
-           ,PinSample
-           ,PanjangChill
-           ,Mold
-           ,TotalMold
-           ,MoldNG
-           ,PourNG
-           ,Empty
-           ,OperatorID
-           ,FaddingTime)
-          VALUES
-          ('$SessionID_Active'
-          ,'$fm'
-          ,'$product'
-          ,'$start'
-          ,'$finish'
-          ,'$temp'
-          ,'OK'
-          ,'$chill'
-          ,'$mold'
-          ,'$total'
-          ,'$mold_ng'
-          ,'$pour_ng'
-          ,'$empty'
-          ,'$op'
-          ,'$fdt')";
-          $stmt_transaction = sqlsrv_query($conn, $sql_transaction);
-          echo '<meta http-equiv="refresh" content="0" />';
-          var_dump($stmt_transaction);die;
-        }
-      ?>
+                // $no= 1;
+                if(isset($_POST["add_pouring"])){
+                // $no_laddle = $no++;
+                $fm = $_POST['fm'];
+                $product = $_POST['product'];
+                $start = $_POST['start'];
+                $finish = $_POST['finish'];
+                $temp = $_POST['temp'];
+                $pin = $_POST['pin'];
+                $chill = $_POST['chill'];
+                $mold = $_POST['mold'];
+                $total_mold = $_POST['total'];
+                $mold_ng = $_POST['mold_ng'];
+                $pour_ng = $_POST['pour_ng'];
+                $empty = $_POST['empty'];
+                $op = $_POST['op'];
+                $fdt = $_POST['fdt'];
+                $problem = $_POST['problem'];
+                $sql_transaction = "INSERT INTO [PRD].[dbo].[pouring]
+                (SessionID
+                -- ,Laddle
+                ,FM
+                ,ProductCode
+                ,StartTime
+                ,FinishTime
+                ,Temperature
+                ,PinSample
+                ,PanjangChill
+                ,Mold
+                ,TotalMold
+                ,MoldNG
+                ,PourNG
+                ,Empty
+                ,OperatorID
+                ,FaddingTime)
+                VALUES
+                ('$SessionID_Active'
+                ,'$fm'
+                ,'$product'
+                ,'$start'
+                ,'$finish'
+                ,'$temp'
+                ,'1'
+                ,'$chill'
+                ,'$mold'
+                ,'$total_mold'
+                ,'$mold_ng'
+                ,'$pour_ng'
+                ,'$empty'
+                ,'$op'
+                ,'$fdt')";
+                $stmt_transaction = sqlsrv_query($conn, $sql_transaction);
+                echo '<meta http-equiv="refresh" content="0" />';
+                //   var_dump($stmt_transaction);die;
+                }
+            ?>
         </div>
     </div>
 </div>
@@ -757,181 +644,14 @@ require "config/query/Q_pouring.php";
                                     </div>
                                 </div>
                             </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Product -->
-<div class="modal fade" id="modal_product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">SET PRODUCT</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            <div class="modal-body">
-                <div class="col-12">
-                    <div class="row">
-                        <?php
-            while($row_product = sqlsrv_fetch_array($stmt_product, SQLSRV_FETCH_ASSOC)) { ?>
-                        <div class="col-sm-3">
-                            <a id="get_product" data-prdid="<?php echo $row_product['PartName']; ?>">
+                            <a id="get_fm" data-fmid="22">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <div class="row">
-                                                    <?php echo $row_product['PartName']; ?>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <p>22</p>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Foreman -->
-<div class="modal fade" id="modal_foreman" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">SET FOREMAN</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            <div class="modal-body">
-                <div class="col-12">
-                    <div class="row">
-                        <?php
-            while($row_foreman = sqlsrv_fetch_array($stmt_foreman, SQLSRV_FETCH_ASSOC)) { ?>
-                        <div class="col-sm-3">
-                            <a id="get_foreman" data-empid="<?php echo $row_foreman['EmpID']; ?>"
-                                data-empname="<?php echo $row_foreman['EmployeeName']; ?>">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <?php echo '<img src="data:image;base64, '.base64_encode($row_foreman['Picture']).'" width="50px">' ?>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <div class="row">
-                                                    <?php echo $row_foreman['EmpID'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_foreman['EmployeeName'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_foreman['Role'] ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Leader -->
-<div class="modal fade" id="modal_leader" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">SET LEADER</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            <div class="modal-body">
-                <div class="col-12">
-                    <div class="row">
-                        <?php
-            while($row_leader = sqlsrv_fetch_array($stmt_leader, SQLSRV_FETCH_ASSOC)) { ?>
-                        <div class="col-sm-3">
-                            <a id="get_leader" data-empid="<?php echo sprintf("%s",$row_leader['EmpID']); ?>"
-                                data-empname="<?php echo $row_leader['EmployeeName']; ?>">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <?php echo '<img src="data:image;base64, '.base64_encode($row_leader['Picture']).'" width="50px">' ?>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <div class="row">
-                                                    <?php echo $row_leader['EmpID'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_leader['EmployeeName'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_leader['Role'] ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Operator -->
-<div class="modal fade" id="modal_op" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">SET OPERATOR</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            <div class="modal-body">
-                <div class="col-12">
-                    <div class="row">
-                        <?php
-            while($row_operator = sqlsrv_fetch_array($stmt_operator, SQLSRV_FETCH_ASSOC)) { ?>
-                        <div class="col-sm-3">
-                            <a id="get_op" data-empid="<?php echo $row_operator['EmpID'];?>"
-                                data-empname="<?php echo $row_operator['EmployeeName']; ?>">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <?php echo '<img src="data:image;base64, '.base64_encode($row_operator['Picture']).'" width="50px">' ?>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <div class="row">
-                                                    <?php echo $row_operator['EmpID'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_operator['EmployeeName'] ?>
-                                                </div>
-                                                <div class="row">
-                                                    <?php echo $row_operator['Role'] ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <?php } ?>
                     </div>
                 </div>
             </div>

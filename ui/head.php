@@ -12,14 +12,26 @@
 <link rel="stylesheet" href="assets/frontend/css/fullcalendar.css">
 <link rel="stylesheet" href="assets/frontend/css/bootstrap.min.css">
 
+
+
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+
 <!-- BS 5-->
 <script src="assets/frontend/js/bootstrap.bundle.min.js"></script>
 
 <!-- Chart -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
 <script src="assets/support/chart.js/chart.js"></script>
 
 <!-- Bahan Pendukung Desain -->
+<link rel="stylesheet" href="assets/support/fontawesome/css/all.css">
 <link rel="stylesheet" href="assets/support/fontawesome-free/css/all.min.css">
 <link rel="stylesheet" href="assets/support/overlayScrollbars/css/OverlayScrollbars.min.css">
 <link rel="stylesheet" href="assets/support/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">

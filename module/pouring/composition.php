@@ -6,6 +6,7 @@ $fm_cms = $_GET['fm']; // GET VARIABEL
 $sample = $_GET['sample'];
 $laddle = $_GET['laddle'];
 $qty = $_GET['qty'];
+$analyst = $_GET['analyst'];
 
 $qty_result = str_replace(':0-','&',$qty);
 $qty_result_ = str_replace(':0','&',$qty_result);
@@ -33,7 +34,7 @@ $fe2 = substr($qty_result_, 152,6);
 // echo ($si);die;
 // $_SESSION[$fid[$i]];
 
-$sql_composition = "UPDATE [PRD].[dbo].[pouring]
+$sql_comp_pouring = "UPDATE [PRD].[dbo].[pouring]
    SET 
     C = '$c'
     ,Si = '$si'
@@ -54,11 +55,30 @@ $sql_composition = "UPDATE [PRD].[dbo].[pouring]
     ,Fe1 = '$fe1'
     ,Fe2 = '$fe2'
  WHERE FM = '$fm_cms'";
- $stmt_composition = sqlsrv_query($conn, $sql_composition);
+ $stmt_comp_pouring = sqlsrv_query($conn, $sql_comp_pouring);
+
+$sql_comp_melting = "UPDATE [PRD].[dbo].[melting]
+   SET 
+   TimeAnalyst = '$analyst'
+   ,CAct = '$c'
+   ,SiAct = '$si'
+   ,MnAct = '$mn'
+   ,TiAct = '$ti'
+   ,NiAct = '$ni'
+   ,AlAct = '$al'
+   ,ZnAct = '$zn'
+   ,SbAct = '$sb'
+   ,SAct = '$s'
+   ,CuAct = '$cu'
+   ,SnAct = '$sn'
+   ,CrAct = '$cr'
+   ,PAct = '$p'
+   WHERE FM = '$fm_cms'";
+ $stmt_comp_melting = sqlsrv_query($conn, $sql_comp_melting);
 //  var_dump($sql_composition);die;
 
 $_SESSION['loadpage'] = 'module/pouring/composition.php'; // REGISTER NEXT PAGE
 		
-header('Location: ../../index'); // INDEX
+header('Location: ../../echecksheet'); // INDEX
 
 ?>

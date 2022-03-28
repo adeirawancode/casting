@@ -212,6 +212,16 @@ svg {
 table {
     border-collapse: collapse;
 }
+.styled-table {
+    border-collapse: collapse;
+    responsive: true;
+    margin: 0px;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    border-spacing: 0;
+    box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+}
 
 caption {
     padding-top: 0.75rem;
